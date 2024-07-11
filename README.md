@@ -89,7 +89,7 @@ function testRevert() public pure {
     revert("This is a forced revert");
 }
 ```
-Error Handling
+# Error Handling
 require()
 Used to validate inputs and conditions. If a condition is not met, the transaction is reverted with an error message.
 
@@ -99,10 +99,10 @@ Used to check for conditions that should never be false. If the condition is fal
 revert()
 Explicitly reverts a transaction with an optional error message.
 
-##License
+## License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-##Acknowledgments
+## Acknowledgments
 Solidity Documentation
 Truffle Suite
 OpenZeppelin for their extensive library and guides on secure smart contract development.
