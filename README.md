@@ -103,6 +103,6 @@ Explicitly reverts a transaction with an optional error message.
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Acknowledgments
-Solidity Documentation
-Truffle Suite
-OpenZeppelin for their extensive library and guides on secure smart contract development.
+- Solidity Documentation
+- Truffle Suite
+- OpenZeppelin for their extensive library and guides on secure smart contract development.
