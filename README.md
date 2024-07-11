@@ -15,13 +15,8 @@ This repository contains a simple smart contract written in Solidity. The contra
    - [require()](#require)
    - [assert()](#assert)
    - [revert()](#revert)
-5. [Setup and Deployment](#setup-and-deployment)
-   - [Prerequisites](#prerequisites)
-   - [Installation](#installation)
-   - [Compiling and Deploying](#compiling-and-deploying)
-   - [Interacting with the Contract](#interacting-with-the-contract)
-6. [License](#license)
-7. [Acknowledgments](#acknowledgments)
+5. [License](#license)
+6. [Acknowledgments](#acknowledgments)
 
 ## Introduction
 
@@ -44,13 +39,70 @@ The constructor sets the `owner` to the address that deploys the contract.
 constructor() {
     owner = msg.sender;
 }
-
-**Modifiers
+```
+Modifiers
 onlyOwner
-This modifier restricts access to certain functions to only the owner of the contract.**
+This modifier restricts access to certain functions to only the owner of the contract.
 
+```solidity
 modifier onlyOwner() {
     require(msg.sender == owner, "Not the contract owner");
     _;
 }
+```
 
+Functions
+`deposit`
+Allows users to deposit Ether into the contract. It requires the sent value to match the specified amount.
+
+```solidity
+function deposit(uint256 amount) public payable {
+    require(msg.value == amount, "Sent value does not match the specified amount");
+    balance += amount;
+}
+```
+`withdraw`
+Allows the owner to withdraw Ether from the contract. It ensures there is sufficient balance before proceeding.
+
+```solidity
+function withdraw(uint256 amount) public onlyOwner {
+    require(amount <= balance, "Insufficient balance");
+    balance -= amount;
+    payable(owner).transfer(amount);
+}
+```
+`testAssert`
+Demonstrates the use of assert() to check conditions that should always be true.
+
+```solidity
+
+function testAssert() public view {
+    assert(balance >= 0);
+}
+```
+`testRevert`
+Demonstrates the use of revert() to forcefully revert a transaction with a custom error message.
+
+```solidity
+
+function testRevert() public pure {
+    revert("This is a forced revert");
+}
+```
+Error Handling
+require()
+Used to validate inputs and conditions. If a condition is not met, the transaction is reverted with an error message.
+
+assert()
+Used to check for conditions that should never be false. If the condition is false, the transaction is reverted and all gas is consumed.
+
+revert()
+Explicitly reverts a transaction with an optional error message.
+
+##License
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+##Acknowledgments
+Solidity Documentation
+Truffle Suite
+OpenZeppelin for their extensive library and guides on secure smart contract development.
