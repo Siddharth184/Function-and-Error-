@@ -45,9 +45,9 @@ constructor() {
     owner = msg.sender;
 }
 
-Modifiers
+**Modifiers
 onlyOwner
-This modifier restricts access to certain functions to only the owner of the contract.
+This modifier restricts access to certain functions to only the owner of the contract.**
 
 modifier onlyOwner() {
     require(msg.sender == owner, "Not the contract owner");
