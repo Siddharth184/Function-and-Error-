@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract ExampleContract {
+contract SimpleBank {
     address public owner;
-    uint256 public balance;
+    mapping(address => uint256) public balances;
 
     constructor() {
         owner = msg.sender;
@@ -14,20 +14,28 @@ contract ExampleContract {
         _;
     }
 
-    function deposit(uint256 amount) public payable {
-        require(msg.value == amount, "Sent value does not match the specified amount");
-        balance += amount;
+    function deposit() public payable {
+        require(msg.value > 0, "Deposit amount must be greater than zero");
+        balances[msg.sender] += msg.value;
     }
 
-    function withdraw(uint256 amount) public onlyOwner {
-        require(amount <= balance, "Insufficient balance");
-        balance -= amount;
-        payable(owner).transfer(amount);
+    function withdraw(uint256 amount) public {
+        require(amount <= balances[msg.sender], "Insufficient balance");
+        balances[msg.sender] -= amount;
+        payable(msg.sender).transfer(amount);
+    }
+
+    function checkBalance() public view returns (uint256) {
+        return balances[msg.sender];
     }
 
     function testAssert() public view {
-        // Let's assume this is a condition that must always be true
-        assert(balance >= 0);
+        // Ensure that the contract balance is the sum of all user balances
+        uint256 totalBalances = 0;
+        for (uint i = 0; i < address(this).balance; i++) {
+            totalBalances += balances[msg.sender];
+        }
+        assert(address(this).balance == totalBalances);
     }
 
     function testRevert() public pure {
